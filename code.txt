@@ -1,0 +1,95 @@
+outerLoop: inx d ; incrementing outer loop count
+
+
+
+   lxi b, 0h ; resetting inner loop
+
+
+
+   lxi h, 0045h ;loading array last address to pair register HL
+
+
+
+innerLoop: inx b ; incrementing inner loop count
+
+
+
+   mov a, M ; moving content pointed by pair register HL to accumulator
+
+
+
+   dcx h ; decrementing address in pair register HL 
+
+
+
+   cmp M ; comparing content of accumulator with 
+
+content pointed by pair register HL 
+
+
+
+   CM SWAPPING ; call function swap if result of above comparison is negative
+
+
+
+   mov a, c ; moving array size of pair register BC in accumulator
+
+
+
+   sui 05h ; subtracting five from accumulator containing array size 
+
+
+
+   JNZ innerLoop; checking if accumulator result is not zero meaning continue inner looping
+
+
+
+   mov a, e ; moving array size of pair register DE in accumulator
+
+
+
+   sui 05h ; subtracting five from accumulator containing array size 
+
+
+
+   JNZ outerLoop ; checking if accumulator result is not zero meaning continue outer looping
+
+    
+
+    
+
+    
+
+hlt ; terminating the program
+
+
+
+SWAPPING: push d ; function label and pushing loop count containing in pair register DE to stack for using the register for swaping
+
+
+
+ mov d, M ; moving content pointed by HL to DE registers
+
+
+
+   mov M, a ; moving accumulator content to memory pointed by HL
+
+
+
+   inx h ; incrementing HL 
+
+
+
+   mov M, d ; moving DE registers content to memory pointed by HL
+
+
+
+   dcx h ; decrememnting HL 
+
+
+
+   pop d ; poping stack back into DE registers to keep track of the loop count
+
+
+
+  RET ; return to the initial address before interupt
